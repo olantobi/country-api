@@ -5,11 +5,10 @@
  */
 package com.liferon.countryapi.security;
 
-import com.africaprudential.backenddemo.model.AuthUser;
-import com.africaprudential.backenddemo.model.User;
-import com.africaprudential.backenddemo.service.AccessControlService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.liferon.countryapi.domain.User;
+import com.liferon.countryapi.model.AuthUser;
+import com.liferon.countryapi.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,15 +27,11 @@ import java.util.List;
  * @author Ebenezer
  */
 @Component
+@RequiredArgsConstructor
 public class CustomAuthenticationProvider implements AuthenticationProvider {
- 
-    @Autowired
-    private AccessControlService accessControlService;
 
-    @Autowired
-    @Qualifier("pbkdf2PasswordEncoder")
-    private PasswordEncoder passwordEncoder;
-
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication)
@@ -45,16 +40,13 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
         System.out.println("Calling find by username");
-        User user = accessControlService.findByUsername(username);
+        User user = userRepository.findByUsername(username);
 
         if(user == null) {
             throw new UsernameNotFoundException("Invalid username/password");
         }
 
-        if (!user.isEnabled())
-            throw new MyAuthenticationException("User is not yet enabled on this platform");
-
-        if (passwordEncoder.matches(password, user.getEncryptedPassword())) {
+        if (passwordEncoder.matches(password, user.getPassword())) {
             AuthUser authUser = new AuthUser(username, password, getGrantedAuthorities(user));
             return authUser;
         } else {
@@ -65,7 +57,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     private List<GrantedAuthority> getGrantedAuthorities(User user){
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.clear();
-        authorities.add(new SimpleGrantedAuthority(user.getRoleName()));
+        authorities.add(new SimpleGrantedAuthority(user.getRole()));
 
         return authorities;
     }

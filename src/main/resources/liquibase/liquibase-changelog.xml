@@ -7,25 +7,26 @@
 >    
 
     <changeSet id="create-users-table" author="Tobi Olanrewaju">
-        <createTable tableName="users">
+        <createTable tableName="Users">
             <column name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="username" type="varchar(100)" />
             <column name="password" type="varchar(100)" />
+            <column name="role" type="varchar(50)" />
             <column name="email" type="varchar(100)" />       
             <column name="firstName" type="varchar(100)" />
             <column name="lastName" type="varchar(100)" />
             <column name="dateOfBirth" type="date"/>
             <column name="createdBy" type="varchar(100)"/>
-            <column name="createdDate" type="datetime"/>
+            <column name="created" type="datetime"/>
             <column name="lastModifiedBy" type="varchar(100)"/>
             <column name="lastModifiedDate" type="datetime"/>
         </createTable>
     </changeSet>
     
     <changeSet id="create-country-table" author="Tobi Olanrewaju">
-        <createTable tableName="country">
+        <createTable tableName="Countries">
             <column name="id" type="bigint">
                 <constraints nullable="false" primaryKey="true" />
             </column>
@@ -36,7 +37,7 @@
                 <constraints nullable="false" />
             </column>
             <column name="createdBy" type="varchar(100)"/>
-            <column name="createdDate" type="datetime"/>
+            <column name="created" type="datetime"/>
             <column name="lastModifiedBy" type="varchar(100)"/>
             <column name="lastModifiedDate" type="datetime"/>
         </createTable>

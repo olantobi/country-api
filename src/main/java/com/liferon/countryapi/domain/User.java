@@ -5,16 +5,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Getter
 @Setter
 @ToString
 @Entity
+@Table(name = "Users")
 public class User extends Auditable<String> {
 
     @Id
@@ -26,4 +24,5 @@ public class User extends Auditable<String> {
     private String email;
     private String username;
     private String password;
+    private String role;
 }

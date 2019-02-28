@@ -5,7 +5,7 @@
  */
 package com.liferon.countryapi.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,15 +21,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  */
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private CustomAuthenticationProvider customAuthenticationProvider;
+    private final CustomAuthenticationProvider customAuthenticationProvider;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
-        auth.authenticationProvider(customAuthenticationProvider);//.userDetailsService(userDetailsService);
+        auth.authenticationProvider(customAuthenticationProvider);
     }
 
     @Override
@@ -38,27 +37,9 @@ public class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-
-//    @Autowired
-//    public void globalUserDetails(final AuthenticationManagerBuilder auth) throws Exception {// @formatter:off
-//        auth.inMemoryAuthentication().withUser("sunnyben").password("123456").roles("ADMIN").and().withUser("olantobi")
-//                .password("adetoberu").roles("SYSADMIN");
-//    }
-
-
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication().withUser("olantobi").password("adetoberu").roles("SYSADMIN");
-//        //auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-//        //auth.inMemoryAuthentication().withUser("john").password("123").roles("USER").and().withUser("tom")
-//                //.password("111").roles("ADMIN");
-//    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.antMatcher("/api.*").authorizeRequests().anyRequest().authenticated();
-        // .and()
-        //.formLogin().loginPage("/login").successHandler(new CustomLoginSuccessHandler()).permitAll();
     }
 
     @Override
@@ -68,6 +49,9 @@ public class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/webjars/**",
                 "/swagger-resources/**",
                 "/v2/api-docs",
-                "/info");
+                "/info",
+                "/signup",
+                "/login"
+                );
     }
 }
