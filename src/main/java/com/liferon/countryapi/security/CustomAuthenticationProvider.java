@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -30,48 +31,49 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
-    private final UserRepository userRepository;
+    private final UserRepository userService;
     private final PasswordEncoder passwordEncoder;
-
+    
     @Override
     public Authentication authenticate(Authentication authentication)
       throws AuthenticationException {
-        System.out.println("Authentication is about to happen");
         String username = authentication.getName();
-        String password = authentication.getCredentials().toString();
-        System.out.println("Calling find by username");
-        User user = userRepository.findByUsername(username);
-
-        if(user == null) {
+        String password = authentication.getCredentials().toString();        
+        
+        Optional<User> userOptional = userService.findByUsername(username);
+        
+        if(!userOptional.isPresent()) {            
             throw new UsernameNotFoundException("Invalid username/password");
         }
-
-        if (passwordEncoder.matches(password, user.getPassword())) {
+        
+        User user = userOptional.get();
+        
+        if (passwordEncoder.matches(password, user.getPassword())) {                                                    
             AuthUser authUser = new AuthUser(username, password, getGrantedAuthorities(user));
             return authUser;
-        } else {
+        } else { 
             throw new MyAuthenticationException("Invalid username/password");
         }
     }
-
+ 
     private List<GrantedAuthority> getGrantedAuthorities(User user){
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.clear();
+        authorities.clear();        
         authorities.add(new SimpleGrantedAuthority(user.getRole()));
-
+       
         return authorities;
     }
-
+    
     @Override
     public boolean supports(Class<?> authentication) {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
-
+    
     class MyAuthenticationException extends AuthenticationException {
 
         public MyAuthenticationException(String msg) {
             super(msg);
         }
-
+        
     }
 }

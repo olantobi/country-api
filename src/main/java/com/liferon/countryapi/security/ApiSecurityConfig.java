@@ -49,9 +49,8 @@ public class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/webjars/**",
                 "/swagger-resources/**",
                 "/v2/api-docs",
-                "/info",
+                "/login",
                 "/signup",
-                "/login"
-                );
+                "/info");
     }
 }
