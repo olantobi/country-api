@@ -1,5 +1,6 @@
 package com.liferon.countryapi.component;
 
+import com.liferon.countryapi.AppConstants;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -10,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Component
-@Order(Ordered.HIGHEST_PRECEDENCE)
+//@Component
+//@Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsSecurityFilter implements Filter {
     
     @Override
@@ -32,14 +33,15 @@ public class CorsSecurityFilter implements Filter {
             ipAddress = request.getRemoteAddr();
         }
 
-        if (request.getMethod().equalsIgnoreCase("POST") && request.getRequestURI().equals("/oauth/token") && request.getHeader("Authorization") == null) {
+        if (request.getMethod().equalsIgnoreCase("POST") && request.getRequestURI().equals("/login")) {
 
-            String rawHeaderString = "";//client.getClientId()+":"+client.getClientSecret();
+            String rawHeaderString = AppConstants.FrontEndClient.CLIENT_ID +":"+AppConstants.FrontEndClient.CLIENT_SECRET;
             String authHeader = Base64.encodeBase64String(rawHeaderString.getBytes());
 
-
             mutableRequest.putHeader("Authorization", "Basic "+authHeader);
+            mutableRequest.setAttribute("grant_type", "password");
 
+            System.out.println("Authentication: "+authHeader);
         }
 
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {

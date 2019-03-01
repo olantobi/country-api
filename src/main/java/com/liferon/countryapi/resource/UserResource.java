@@ -23,11 +23,11 @@ public class UserResource {
         return ResponseEntity.ok("");
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginModel loginModel, BindingResult result, HttpServletRequest request) {
-            request.setAttribute(
-                    View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.TEMPORARY_REDIRECT);
-
-        return ResponseEntity.ok("");
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<?> login(@Valid @RequestBody LoginModel loginModel, BindingResult result, HttpServletRequest request) {
+//            request.setAttribute(
+//                    View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.TEMPORARY_REDIRECT);
+//
+//        return ResponseEntity.ok("");
+//    }
 }
