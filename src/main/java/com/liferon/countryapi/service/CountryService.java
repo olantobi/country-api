@@ -11,5 +11,5 @@ public interface CountryService {
     Country addCountry(CountryModel country);
     boolean updateCountry(CountryModel country);
     List<Country> getAllCountries();
-    boolean deleteCountry(Long countryId);
+    void deleteCountry(Country country);
 }

@@ -85,7 +85,7 @@ public class CountryResource {
             @ApiResponse(code = 400, message = "Invalid request parameters"),
             @ApiResponse(code = 404, message = "Country does not exist")
     })
-    public ResponseEntity<?> updateCountry(@PathVariable("id") long id, @Valid @RequestBody CountryModel country,
+    public ResponseEntity<?> updateCountry(@PathVariable("id") long id, @Valid @RequestBody CountryModel countryModel,
                        BindingResult result) throws InvalidRequestParameterException, ResourceNotFoundException, InternalServerErrorException {
 
         if (result.hasFieldErrors()) {
@@ -98,9 +98,9 @@ public class CountryResource {
         if (!countryOption.isPresent())
             throw new ResourceNotFoundException("Country with id "+id+" does not exist");
 
-        country.setId(id);
+        countryModel.setId(id);
 
-        boolean countryCreated = countryService.updateCountry(country);
+        boolean countryCreated = countryService.updateCountry(countryModel);
         if (countryCreated)
             return ResponseEntity.ok("Country updated successfully");
         else
@@ -119,10 +119,8 @@ public class CountryResource {
         if (!countryOption.isPresent())
             throw new ResourceNotFoundException("Country with id "+id+" does not exist");
 
-        boolean countryDeleted = countryService.deleteCountry(id);
-        if (countryDeleted)
-            return ResponseEntity.ok(countryOption.get());
-        else
-            throw new InternalServerErrorException("An error has occurred", "Unable to delete country");
+        countryService.deleteCountry(countryOption.get());
+
+        return ResponseEntity.ok(countryOption.get());
     }
 }

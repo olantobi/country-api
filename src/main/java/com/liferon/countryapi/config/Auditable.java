@@ -5,9 +5,9 @@
  */
 package com.liferon.countryapi.config;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -36,7 +36,7 @@ public abstract class Auditable<U> {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSSZ")
     @CreatedDate
     @Temporal(TIMESTAMP)
-    @JsonAlias(value = "created")
+    @JsonProperty("created")
     protected Date createdDate;
     
     @LastModifiedBy

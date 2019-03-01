@@ -1,7 +1,9 @@
 package com.liferon.countryapi.domain;
 
 import com.liferon.countryapi.config.Auditable;
+import com.liferon.countryapi.model.CountryModel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -12,6 +14,7 @@ import javax.persistence.*;
 @ToString
 @Entity
 @Table(name = "countries")
+@NoArgsConstructor
 public class Country extends Auditable<String> {
 
     @Id
@@ -19,4 +22,9 @@ public class Country extends Auditable<String> {
     private Long id;
     private String name;
     private String continent;
+
+    public Country(CountryModel model) {
+        this.name = model.getName();
+        this.continent = model.getContinent();
+    }
 }
