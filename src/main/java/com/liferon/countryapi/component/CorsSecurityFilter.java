@@ -35,9 +35,11 @@ public class CorsSecurityFilter implements Filter {
             String authHeader = Base64.encodeBase64String(rawHeaderString.getBytes());
 
             mutableRequest.putHeader("Authorization", "Basic "+authHeader);
-            mutableRequest.setAttribute("grant_type", "password");
+            //mutableRequest.setAttribute("grant_type", "password");
 
-            System.out.println("Authentication: "+authHeader);
+            mutableRequest.addParameter("grant_type", "password");
+
+            //printMap(mutableRequest.getParameterMap());
         }
 
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {

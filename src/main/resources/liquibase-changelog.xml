@@ -8,7 +8,7 @@
 
     <changeSet id="create-users-table" author="Tobi Olanrewaju">
         <createTable tableName="users" schemaName="dbo">
-            <column name="id" type="BIGINT">
+            <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="username" type="varchar(100)" />
@@ -27,7 +27,7 @@
 
     <changeSet id="create-countries-table" author="Tobi Olanrewaju">
         <createTable tableName="countries" schemaName="dbo">
-            <column name="id" type="bigint">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="name" type="varchar(50)">

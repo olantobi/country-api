@@ -1,5 +1,6 @@
 package com.liferon.countryapi.advice;
 
+import com.liferon.countryapi.exception.InternalServerErrorException;
 import com.liferon.countryapi.exception.InvalidRequestParameterException;
 import com.liferon.countryapi.exception.RestErrorResponse;
 import org.springframework.http.HttpStatus;
@@ -17,29 +18,13 @@ public class AdviceResource {
         return new ResponseEntity<>(model, HttpStatus.BAD_REQUEST);
     }
 
-//    @ExceptionHandler(AccessDeniedException.class)
-//    public ResponseEntity<RestErrorResponse> accessDenied(AccessDeniedException ex) {
-//        RestErrorResponse model = new RestErrorResponse(ex.getMessage(),
-//                ex.getMessage());
-//
-//        return new ResponseEntity<>(model, HttpStatus.FORBIDDEN);
-//    }
-//
-//    @ExceptionHandler(InternalServerErrorException.class)
-//    public ResponseEntity<RestErrorResponse> internalServerError(InternalServerErrorException ex) {
-//        RestErrorResponse model = new RestErrorResponse(ex.getError(),
-//                ex.getError_description());
-//
-//        return new ResponseEntity<>(model, HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
-//
-//    @ExceptionHandler(ConflictException.class)
-//    public ResponseEntity<RestErrorResponse> conflictException(ConflictException ex) {
-//        RestErrorResponse model = new RestErrorResponse(ex.getError(),
-//                ex.getError_description());
-//
-//        return new ResponseEntity<>(model, HttpStatus.CONFLICT);
-//    }
+    @ExceptionHandler(InternalServerErrorException.class)
+    public ResponseEntity<RestErrorResponse> internalServerError(InternalServerErrorException ex) {
+        RestErrorResponse model = new RestErrorResponse(ex.getError(),
+                ex.getError_description());
+
+        return new ResponseEntity<>(model, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<RestErrorResponse> generalExceptionCatcher(Exception ex) {

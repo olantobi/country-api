@@ -17,16 +17,31 @@ public class MutableHttpServletRequest extends HttpServletRequestWrapper {
     
     // holds custom header and value mapping
     private final Map<String, String> customHeaders;
+    private final Map<String, String[]> parameterMap;
     
     public MutableHttpServletRequest(HttpServletRequest request) {
         super(request);
         this.customHeaders = new HashMap<>();
+        this.parameterMap = new HashMap<>();
     }
     
     public void putHeader(String name, String value){
         this.customHeaders.put(name, value);
     }
- 
+
+    @Override
+    public Map<String, String[]> getParameterMap() {
+        Map paramMap = super.getParameterMap();
+
+        parameterMap.putAll(paramMap);
+
+        return parameterMap;
+    }
+
+    public void addParameter(String parameterKey, String parameterValue) {
+        parameterMap.put(parameterKey, new String[] {parameterValue});
+    }
+
     @Override
     public String getHeader(String name) {
         // check the custom headers first

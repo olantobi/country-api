@@ -1,5 +1,6 @@
 package com.liferon.countryapi.service.impl;
 
+import com.liferon.countryapi.AppConstants;
 import com.liferon.countryapi.domain.User;
 import com.liferon.countryapi.model.UserModel;
 import com.liferon.countryapi.repository.UserRepository;
@@ -27,6 +28,7 @@ public class UserServiceImpl implements UserService {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
         user.setDateOfBirth(simpleDateFormat.parse(userModel.getDateOfBirth()));
+        user.setRole(AppConstants.DEFAULT_ROLE);
 
         User userResponse = userRepository.save(user);
         if(userResponse != null)
