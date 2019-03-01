@@ -44,7 +44,7 @@ public class CountryResource {
     @ApiOperation(nickname = "/countries/id", value = "Get country by id")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Successful"),
-            @ApiResponse(code = 400, message = "Country does not exist")
+            @ApiResponse(code = 404, message = "Country does not exist")
     })
     public ResponseEntity<?> getCountry(@PathVariable("id") long id) {
         Optional<Country> countryOption = countryService.getCountry(id);
@@ -59,7 +59,7 @@ public class CountryResource {
     @ApiOperation(nickname = "/country", value = "Add a country")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Successful"),
-            @ApiResponse(code = 404, message = "Invalid request parameters")
+            @ApiResponse(code = 400, message = "Invalid request parameters")
     })
     public ResponseEntity<?> addCountry(@Valid @RequestBody CountryModel country,
                                            BindingResult result, UriComponentsBuilder ucBuilder) throws InvalidRequestParameterException {
@@ -82,7 +82,7 @@ public class CountryResource {
     @ApiOperation(nickname = "/country/id", value = "Update country by id")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Successful"),
-            @ApiResponse(code = 404, message = "Invalid request parameters"),
+            @ApiResponse(code = 400, message = "Invalid request parameters"),
             @ApiResponse(code = 404, message = "Country does not exist")
     })
     public ResponseEntity<?> updateCountry(@PathVariable("id") long id, @Valid @RequestBody CountryModel country,
@@ -111,7 +111,7 @@ public class CountryResource {
     @ApiOperation(nickname = "/countries/id", value = "Delete country by id")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Country deleted successfully"),
-            @ApiResponse(code = 400, message = "Country does not exist")
+            @ApiResponse(code = 404, message = "Country does not exist")
     })
     public ResponseEntity<?> deleteCountry(@PathVariable("id") long id) throws ResourceNotFoundException, InternalServerErrorException {
         Optional<Country> countryOption = countryService.getCountry(id);

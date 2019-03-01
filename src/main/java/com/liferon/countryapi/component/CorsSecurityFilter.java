@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-//@Component
-//@Order(Ordered.HIGHEST_PRECEDENCE)
+@Component
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsSecurityFilter implements Filter {
     
     @Override
@@ -28,12 +28,8 @@ public class CorsSecurityFilter implements Filter {
         response.addHeader("Access-Control-Expose-Headers", "x-requested-with");
 
         MutableHttpServletRequest mutableRequest = new MutableHttpServletRequest(request);
-        String ipAddress = request.getHeader("X-FORWARDED-FOR");
-        if (ipAddress == null || ipAddress.isEmpty()) {
-            ipAddress = request.getRemoteAddr();
-        }
 
-        if (request.getMethod().equalsIgnoreCase("POST") && request.getRequestURI().equals("/login")) {
+        if (request.getMethod().equalsIgnoreCase("POST") && request.getRequestURI().equals("/oauth/token")) {
 
             String rawHeaderString = AppConstants.FrontEndClient.CLIENT_ID +":"+AppConstants.FrontEndClient.CLIENT_SECRET;
             String authHeader = Base64.encodeBase64String(rawHeaderString.getBytes());

@@ -1,9 +1,13 @@
 package com.liferon.countryapi.service;
 
-import com.liferon.countryapi.model.LoginModel;
+import com.liferon.countryapi.domain.User;
 import com.liferon.countryapi.model.UserModel;
 
+import java.text.ParseException;
+import java.util.Optional;
+
 public interface UserService {
-    String login(LoginModel loginModel);
-    boolean register(UserModel userModel);
+    boolean register(UserModel userModel) throws ParseException;
+    Optional<User> findByUsername(String username);
+    Optional<User> findByEmail(String email);
 }
