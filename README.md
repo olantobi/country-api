@@ -5,7 +5,7 @@ using Java Springboot.
 After completion of your application, a client should be able to perform the
 following api calls and get the expected results:
 
- **POST /signup
+ * POST /signup
  
 payload will contain the following fields :
 1. first name
@@ -15,7 +15,7 @@ payload will contain the following fields :
 5. username
 6. password
 
- **POST /login
+ * POST /login
 
 payload will contain the following fields :
 1. username / email
@@ -25,7 +25,7 @@ Successful login should return API status code 200 success and jwt token
 Return 401 status code for incorrect username or password.
 The returned JWT token should be used to access all the API below.
 
- **POST /countries
+ * POST /countries
 
 Add a country
 
@@ -33,7 +33,7 @@ payload will contain the following fields :
 1. name
 2. continent
 
- **GET /countries
+ * GET /countries
 
 Return all the countries in the DB.
 
@@ -42,10 +42,10 @@ Response should contain the following fields
 2. continent
 3. created (Date)
 
-**PUT /countries/id
+* PUT /countries/id
 
 Update a country
 
-**DELETE /countries/id
+* DELETE /countries/id
 
 Delete country.
